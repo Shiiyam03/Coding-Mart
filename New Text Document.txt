@@ -1,0 +1,70 @@
+#pass
+
+def adjacents(n):
+    r = (n - 1) // 3
+    c = (n - 1) % 3
+    kb = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+    adjacent_str = ""
+    if r > 0:
+        adjacent_str += str(kb[r - 1][c])
+    if c > 0:
+        adjacent_str += str(kb[r][c - 1])
+    if r + 1 < len(kb):
+        adjacent_str += str(kb[r + 1][c])
+    if c + 1 < len(kb):
+        adjacent_str += str(kb[r][c + 1])
+    return adjacent_str
+
+def main():
+    a = list(map(int, input().strip('[]').split(',')))
+    res = 1
+    for i in range(1, len(a)):
+        if a[i - 1] == a[i]:
+            pass
+        elif adjacents(a[i - 1]).find(str(a[i])) != -1:
+            res += 1
+        else:
+            res += 2
+    print(res)
+
+if _name_ == "_main_":
+    main()
+
+
+
+#zigzag
+
+def main():
+    s = input().strip()
+    r = int(input())
+    res = ""
+
+    for i in range(r):
+        for k in range(i):
+            res += "*"
+        for j in range(i, len(s), r):
+            res += s[j]
+        res = res.strip()
+
+    print(res.replace(" ", "*"))
+
+if _name_ == "_main_":
+    main()
+
+
+
+#cheap
+
+
+class Solution:
+    def findCheapestPrice(
+        self, n: int, flights: List[List[int]], src: int, dst: int, k: int
+    ) -> int:
+        INF = 0x3F3F3F3F
+        dist = [INF] * n
+        dist[src] = 0
+        for _ in range(k + 1):
+            backup = dist.copy()
+            for f, t, p in flights:
+                dist[t] = min(dist[t], backup[f] + p)
+        return -1 if dist[dst] == INF else dist[dst]
